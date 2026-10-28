@@ -1,0 +1,15 @@
+{
+  "fecha": "2026-10-28 15:43:06",
+  "binance_ves": 1007.42,
+  "binance_zinli": null,
+  "binance_wally": null,
+  "bybit_ves": {
+    "ask": 1005.5,
+    "bid": 1004.21
+  },
+  "okx_ves": {
+    "ask": 1008,
+    "bid": 1005.2
+  },
+  "binance_cop": 3144.83
+}
