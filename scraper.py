@@ -66,8 +66,8 @@ def fetch_criptoya(exchange, fiat="VES"):
     except Exception as e:
         print(f"Error CriptoYa {exchange}: {e}")
         return None
-        def main():
-    # ¡OJO AQUÍ! Estas líneas deben tener espacios a la izquierda
+
+def main():
     os.makedirs("data", exist_ok=True)
     
     historial = []
