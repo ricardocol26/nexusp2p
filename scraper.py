@@ -109,7 +109,6 @@ def fetch_criptoya(exchange, fiat="VES"):
         json.dump(historial, f, ensure_ascii=False, indent=2)
     
     print("Datos guardados exitosamente:", nuevo_precio)
-
 if __name__ == '__main__':
     main()
         print(f"Error CriptoYa {exchange}: {e}")
