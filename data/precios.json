@@ -488,5 +488,19 @@
       "ask": 1004,
       "bid": 991
     }
+  },
+  {
+    "fecha": "2026-11-01 14:37:33",
+    "binance_ves": null,
+    "binance_zinli": null,
+    "binance_wally": null,
+    "bybit_ves": {
+      "ask": 997.911,
+      "bid": 991.5
+    },
+    "okx_ves": {
+      "ask": 1004,
+      "bid": 992
+    }
   }
 ]
