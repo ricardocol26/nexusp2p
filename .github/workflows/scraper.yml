@@ -1,7 +1,7 @@
 name: NexusP2P Bot
 on:
   schedule:
-    - cron: '0 * * * *'      # Corre cada hora en punto
+    - cron: "*/15 * * * *"  # Corre cada hora en punto
   workflow_dispatch:
 
 permissions:
