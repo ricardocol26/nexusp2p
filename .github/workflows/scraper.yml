@@ -1,29 +1,26 @@
 name: NexusP2P Bot
-
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: '0 * * * *'      # Corre cada hora en punto
   workflow_dispatch:
 
 permissions:
   contents: write
+concurrency:
+  group: radar
+  cancel-in-progress: false
 
 jobs:
-  scrape:
+  precio:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Instalar dependencias
-        run: pip install requests
-      - name: Ejecutar Bot
-        run: python scraper.py
-      - name: Guardar datos
-        run: |
-          git config user.name  "nexusp2p-bot"
+      - run: python3 scraper.py
+        env:
+          COTIZAVE_API_KEY: ${{ secrets.COTIZAVE_API_KEY }}
+      - run: |
+          git config user.name "radar-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add data/precios.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Actualizar precios"
+          git add data/
+          git diff --quiet --cached || git commit -m "precio $(date -u +%FT%TZ)"
           git push
