@@ -55,5 +55,5 @@ def main():
     
     print("Datos guardados exitosamente:", nuevo_precio)
 
-if _name_ == "_main_":
+if __name__ == '__main__':
     main()
