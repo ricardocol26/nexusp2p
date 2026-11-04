@@ -1524,5 +1524,19 @@
       "ask": 1015,
       "bid": 1002.11
     }
+  },
+  {
+    "fecha": "2026-11-04 09:28:52",
+    "binance_ves": null,
+    "binance_zinli": null,
+    "binance_wally": null,
+    "bybit_ves": {
+      "ask": 1008,
+      "bid": 1001.51
+    },
+    "okx_ves": {
+      "ask": 1015,
+      "bid": 1002.11
+    }
   }
 ]
