@@ -112,6 +112,37 @@ def niveles(v, ventana=10):
         if v[i] == min(w): pisos.append(round(v[i], 2))
     return {"resistencias": sorted(set(techos))[-4:], "soportes": sorted(set(pisos))[:4]}
 
+# NUEVA FUNCIÓN: Pronóstico a largo plazo (Día siguiente y Semana)
+def proyeccion_largo_plazo(historial):
+    dias = {}
+    # Agrupamos los datos por día
+    for h in historial:
+        if not h.get("binance_ves"): continue
+        dia = h["fecha"][:10]
+        if dia not in dias:
+            dias[dia] = {"techo": h["binance_ves"], "piso": h["binance_ves"]}
+        else:
+            dias[dia]["techo"] = max(dias[dia]["techo"], h["binance_ves"])
+            dias[dia]["piso"] = min(dias[dia]["piso"], h["binance_ves"])
+    
+    # Si no hay suficientes días de datos, devolvemos null
+    if len(dias) < 2:
+        return {"mañana_techo": None, "mañana_piso": None, "semana_techo": None, "semana_piso": None}
+        
+    techos = [dias[d]["techo"] for d in dias]
+    pisos = [dias[d]["piso"] for d in dias]
+    
+    # Calculamos promedios históricos para proyectar
+    prom_techo = statistics.fmean(techos)
+    prom_piso = statistics.fmean(pisos)
+    
+    return {
+        "mañana_techo": round(prom_techo * 1.005, 2),
+        "mañana_piso": round(prom_piso * 0.995, 2),
+        "semana_techo": round(max(techos) * 1.01, 2),
+        "semana_piso": round(min(pisos) * 0.99, 2)
+    }
+
 def main():
     payload, resto = pedir()
     if resto is not None and int(resto) < MIN_CUOTA:
@@ -145,6 +176,8 @@ def main():
     delDia = [h["binance_ves"] for h in historial if h["fecha"].startswith(hoy) and h.get("binance_ves")]
 
     proy = pronostico(precios[-288:] if len(precios) >= 30 else precios)
+    proy_largo = proyeccion_largo_plazo(historial)
+    
     techoDia, pisoDia = max(delDia or precios), min(delDia or precios)
     var = ((delDia[-1] - delDia[0]) / delDia[0] * 100) if len(delDia) > 2 else 0.0
 
@@ -167,6 +200,7 @@ def main():
         },
         "niveles": niveles(precios[-120:]),
         "pronostico": proy,
+        "pronostico_largo": proy_largo # <-- AQUÍ ESTÁ LO NUEVO
     }
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(salida, f, ensure_ascii=False, indent=1)
